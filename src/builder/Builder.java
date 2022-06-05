@@ -21,6 +21,8 @@ public class Builder implements Runnable {
             throw new RuntimeException(e);
         }
 
+        System.out.println("MULTIEXECUTE");
+
         Main.toolbar.setStatus("Running...", Configuration.colorOrange);
 
         try (InputStreamReader isr = new InputStreamReader(process.getInputStream())) {
