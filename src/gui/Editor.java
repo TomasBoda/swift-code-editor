@@ -36,8 +36,6 @@ public class Editor extends JScrollPane {
         StyleConstants.setAlignment(rightAlign, StyleConstants.ALIGN_RIGHT);
         lineNumbersPane.setParagraphAttributes(rightAlign, true);
 
-        updateLineNumbering();
-
         JScrollBar verticalScrollBar = getVerticalScrollBar();
         verticalScrollBar.setPreferredSize(new Dimension(0, 0));
         JScrollBar horizontalScrollBar = getHorizontalScrollBar();
@@ -89,8 +87,8 @@ public class Editor extends JScrollPane {
                 "sleep(2)\n" +
                 "print(\"Write some code and see with your own eyes!\")");
 
+        updateLineNumbering();
         highlighter.highlight(editorPane);
-
     }
 
     public String getCodeContents() {

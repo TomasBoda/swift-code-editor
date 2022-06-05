@@ -42,7 +42,10 @@ public class Toolbar extends JPanel {
         leftPanel.add(stopButton);
 
         clearButton = createButton("Clear");
-        clearButton.addActionListener(e -> Main.editor.editorPane.setText(""));
+        clearButton.addActionListener(e -> {
+            Main.editor.editorPane.setText("");
+            Main.editor.updateLineNumbering();
+        });
         leftPanel.add(clearButton);
 
         rightPanel = new JPanel();
