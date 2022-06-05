@@ -20,4 +20,4 @@ There are two options to run the project
 ### Additional functionality
 :white_check_mark: working syntax highlighting for keywords, strings and numbers, which can be further extended using regular expressions\
 :white_check_mark: script errors are highlighted, clickable and scroll to the specific line of the error in the code\
-:x: the mechanism for multiple executions of the script is not implemented yet
+:white_check_mark: the editor supports the execution of the script multiple times (progress bar and estimated time remaining implemented)
