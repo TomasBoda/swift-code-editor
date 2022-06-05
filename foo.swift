@@ -11,7 +11,3 @@ sleep(2)
 print("I am a basic Swift code editor used to write single-file console scripts.")
 sleep(2)
 print("Write some code and see with your own eyes!")
-
-for i in 1...10 {
-   print("Hello, world for the " + String(i) + "th time")
-}
