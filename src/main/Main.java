@@ -30,7 +30,12 @@ public class Main {
         builder.generateCodeFile(code);
         console.log("Code successfully built, running...");
         console.log("\n\n");
-        console.log("Output\n--------------------------\n");
+
+        int batchCount = toolbar.getBatchCount();
+        toolbar.progressBar.setMax(batchCount);
+        toolbar.progressBar.setValue(0);
+
+        builder.setBatchCount(batchCount);
 
         Thread thread = new Thread(builder);
         thread.start();

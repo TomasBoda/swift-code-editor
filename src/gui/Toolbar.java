@@ -6,6 +6,8 @@ import main.Main;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Toolbar extends JPanel {
 
@@ -15,6 +17,9 @@ public class Toolbar extends JPanel {
     public JButton runButton;
     public JButton stopButton;
     public JButton clearButton;
+    public JTextField batchField;
+    public ProgressBar progressBar;
+    public JLabel timeLabel;
     public JLabel statusLabel;
 
     public Toolbar() {
@@ -48,6 +53,33 @@ public class Toolbar extends JPanel {
         });
         leftPanel.add(clearButton);
 
+        batchField = new JTextField("10");
+        batchField.setFont(Configuration.fontButton);
+        batchField.setColumns(12);
+        batchField.setOpaque(true);
+        batchField.setBorder(new EmptyBorder(8, 8, 8, 8));
+        batchField.setBackground(Color.BLACK);
+        batchField.setForeground(Configuration.colorWhite);
+        batchField.setCaretColor(Configuration.colorWhite);
+        batchField.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+
+        leftPanel.add(batchField);
+
+        progressBar = new ProgressBar();
+        leftPanel.add(progressBar);
+
+        timeLabel = new JLabel("");
+        timeLabel.setForeground(new Color(230, 230, 230));
+        timeLabel.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
+        leftPanel.add(timeLabel);
+
         rightPanel = new JPanel();
         rightPanel.setLayout(new GridBagLayout());
         rightPanel.setBackground(new Color(50, 50, 50));
@@ -58,6 +90,10 @@ public class Toolbar extends JPanel {
         statusLabel.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
         rightPanel.add(statusLabel, new GridBagConstraints());
 
+        batchField.setVisible(true);
+        progressBar.setVisible(false);
+        timeLabel.setVisible(false);
+
         add(leftPanel, BorderLayout.WEST);
         add(rightPanel, BorderLayout.EAST);
     }
@@ -67,6 +103,32 @@ public class Toolbar extends JPanel {
             statusLabel.setText(status);
             statusLabel.setForeground(color);
         });
+    }
+
+    public void setRemaining(double remaining) {
+        SwingUtilities.invokeLater(() -> {
+            timeLabel.setText(String.format("%.2f", remaining) + "s");
+        });
+    }
+
+    public void setVisible(JComponent component, boolean visible) {
+        SwingUtilities.invokeLater(() -> {
+            component.setVisible(visible);
+        });
+    }
+
+    public int getBatchCount() {
+        String text = batchField.getText();
+
+        int count;
+        try {
+            count = Integer.parseInt(text);
+        } catch (Exception e) {
+            count = 1;
+            batchField.setText("1");
+        }
+
+        return count;
     }
 
     private JButton createButton(String title) {

@@ -13,72 +13,127 @@ public class Builder implements Runnable {
     private final String filename = "foo";
 
     private Process process;
+    private int batchCount = 1;
 
     public void run() {
-        try {
-            process = new ProcessBuilder("/usr/bin/env", "swift", "foo.swift").start();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        Main.toolbar.setVisible(Main.toolbar.progressBar, batchCount == 1 ? false : true);
+        Main.toolbar.setVisible(Main.toolbar.timeLabel, batchCount == 1 ? false : true);
 
-        System.out.println("MULTIEXECUTE");
+        long start;
+        long elapsedTime;
 
-        Main.toolbar.setStatus("Running...", Configuration.colorOrange);
+        long[] times = new long[batchCount];
 
-        try (InputStreamReader isr = new InputStreamReader(process.getInputStream())) {
-            int c;
-            while ((c = isr.read()) >= 0) {
-                String character = Character.toString((char) c);
-                Main.console.log(character);
-                System.out.flush();
+        for (int i = 0; i < batchCount; i++) {
+            start = System.nanoTime();
+
+            String runNumber = (i + 1) + "/" + batchCount;
+            double remainingTime =  getRemainingTime(i, times) / 1000;
+            String remaining = i == 0 ? "" : "(remaining " + String.format("%.2f", remainingTime) + "s)";
+
+            Main.console.log("Output " + runNumber + " " + remaining);
+            Main.console.log("\n--------------------------\n");
+
+            Main.toolbar.setRemaining(remainingTime);
+
+            try {
+                process = new ProcessBuilder("/usr/bin/env", "swift", "foo.swift", Integer.toString(i)).start();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        try (InputStreamReader isr = new InputStreamReader(process.getErrorStream())) {
-            String buffer = "";
-            int c;
+            Main.toolbar.setStatus("Running...", Configuration.colorOrange);
 
-            while ((c = isr.read()) >= 0) {
-                String character = Character.toString((char) c);
+            try (InputStreamReader isr = new InputStreamReader(process.getInputStream())) {
+                int c;
+                while ((c = isr.read()) >= 0) {
+                    String character = Character.toString((char) c);
+                    Main.console.log(character);
+                    System.out.flush();
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
-                if (character.equals(" ") || character.equals("\n")) {
-                    if (isError(buffer)) {
-                        int[] position = getErrorCaretPosition(buffer);
-                        Main.console.error(buffer, position);
+            try (InputStreamReader isr = new InputStreamReader(process.getErrorStream())) {
+                String buffer = "";
+                int c;
+
+                while ((c = isr.read()) >= 0) {
+                    String character = Character.toString((char) c);
+
+                    if (character.equals(" ") || character.equals("\n")) {
+                        if (isError(buffer)) {
+                            int[] position = getErrorCaretPosition(buffer);
+                            Main.console.error(buffer, position);
+                        } else {
+                            Main.console.log(buffer);
+                        }
+
+                        Main.console.log(character);
+                        buffer = "";
                     } else {
-                        Main.console.log(buffer);
+                        buffer += character;
                     }
 
-                    Main.console.log(character);
-                    buffer = "";
-                } else {
-                    buffer += character;
+                    System.out.flush();
                 }
 
-                System.out.flush();
+                Main.console.log(buffer);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
 
-            Main.console.log(buffer);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            int exitCode = 0;
+            try {
+                exitCode = process.waitFor();
 
-        int exitCode = 0;
-        try {
-            exitCode = process.waitFor();
+                if (exitCode == 0) {
+                    Main.toolbar.setStatus("Compiled successfully", Configuration.colorGreen);
+                } else {
+                    Main.toolbar.setStatus("Compiled with errors", Configuration.colorRed);
+                }
 
-            if (exitCode == 0) {
-                Main.toolbar.setStatus("Compiled successfully", Configuration.colorGreen);
-            } else {
-                Main.toolbar.setStatus("Compiled with errors", Configuration.colorRed);
+                Main.console.log("\nExited with code " + exitCode + "\n\n");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
 
-            Main.console.log("\nExited with code " + exitCode);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            elapsedTime = System.nanoTime() - start;
+            times[i] = elapsedTime;
+            Main.toolbar.progressBar.setValue(Main.toolbar.progressBar.getValue() + 1);
         }
+
+        double totalTime = getTotalRunTime(times) / 1000;
+        Main.console.log("Total run time: " + String.format("%.2f", totalTime) + "s");
+        Main.toolbar.setRemaining(0);
+
+        Main.toolbar.setVisible(Main.toolbar.progressBar, false);
+        Main.toolbar.setVisible(Main.toolbar.timeLabel, false);
+    }
+
+    private double getTotalRunTime(long[] times) {
+        long totalTime = 0;
+
+        for (int i = 0; i < times.length; i++) totalTime += times[i];
+
+        return totalTime / 1000000;
+    }
+
+    private double getRemainingTime(int runNumber, long[] times) {
+        if (runNumber == 0) return 0;
+
+        long totalTime = 0;
+        int totalRuns = (runNumber * (runNumber + 1)) / 2;
+
+        for (int i = 0; i < runNumber; i++) totalTime += (i + 1) * times[i];
+
+        double average = totalTime / totalRuns / 1000000;
+        return (batchCount * average) - (runNumber * average);
+    }
+
+    public void setBatchCount(int batchCount) {
+        this.batchCount = batchCount;
     }
 
     private boolean isError(String text) {

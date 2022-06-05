@@ -74,18 +74,32 @@ public class Editor extends JScrollPane {
         });
 
         editorPane.setText("import Dispatch\n" +
+                "import Foundation\n" +
                 "setbuf(__stdoutp, nil)\n" +
                 "\n" +
-                "// the above lines need to be here so that the output isn't buffered\n" +
-                "// write your code here\n" +
+                "let args = CommandLine.arguments\n" +
+                "let index = Int(args[1]) ?? 0\n" +
                 "\n" +
-                "// run the below code to learn more about this simple Swift Code Editor\n" +
+                "let sentences: [String] = [\n" +
+                "    \"Welcome to the Swift Code Editor!\",\n" +
+                "    \"Let's take a look at what you can do with it.\",\n" +
+                "    \"The RUN button in the upper-left corner runs\\nthe code that is written in this editor pane.\",\n" +
+                "    \"The STOP button terminates the currently\\nrunning code.\",\n" +
+                "    \"The CLEAR button clears the editor pane,\\nso that you can start writing code from\\nscratch.\",\n" +
+                "    \"The black input field right next to the\\nbutton determines how many times should\\nthe script be executed. It only accepts\\nwhole numbers.\",\n" +
+                "    \"That's it! Have fun! Oh, one more thing.\",\n" +
+                "    \"In order to show you live output of the\\nscript, the very first two lines of Swift\\ncode have to be present.\",\n" +
+                "    \"They disable buffering, so the output goes\\ninstantly and directly to the console pane.\",\n" +
+                "    \"Okay, time to write some code!\"\n" +
+                "]\n" +
                 "\n" +
-                "print(\"Greetings user!\")\n" +
-                "sleep(2)\n" +
-                "print(\"I am a basic Swift code editor used to write single-file console scripts.\")\n" +
-                "sleep(2)\n" +
-                "print(\"Write some code and see with your own eyes!\")");
+                "let lettersPerSecond = 30\n" +
+                "let sentence: String = sentences[index]\n" +
+                "let length = sentence.count\n" +
+                "let duration: UInt32 = UInt32(length / lettersPerSecond)\n" +
+                "\n" +
+                "print(sentences[index])\n" +
+                "sleep(duration)");
 
         updateLineNumbering();
         highlighter.highlight(editorPane);
