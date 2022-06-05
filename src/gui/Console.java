@@ -19,7 +19,7 @@ public class Console extends JScrollPane {
 
     public Console(int width, int height) {
         consolePane = new JTextPane();
-        consolePane.setPreferredSize(new Dimension(width, height));
+        setPreferredSize(new Dimension(width, height));
         consolePane.setMargin(new Insets(20, 20, 20, 20));
         consolePane.setBackground(new Color(30, 30, 30));
         consolePane.setForeground(new Color(230, 230, 230));
@@ -36,10 +36,17 @@ public class Console extends JScrollPane {
             }
         });
 
-        JScrollBar scrollBar = getVerticalScrollBar();
-        scrollBar.setPreferredSize(new Dimension(0, 0));
+        JScrollBar verticalScrollBar = getVerticalScrollBar();
+        verticalScrollBar.setPreferredSize(new Dimension(0, 0));
+        JScrollBar horizontalScrollBar = getHorizontalScrollBar();
+        horizontalScrollBar.setPreferredSize(new Dimension(0, 0));
+
         setBorder(BorderFactory.createEmptyBorder());
-        getViewport().add(consolePane);
+
+        JPanel wrapper = new JPanel(new BorderLayout());
+        wrapper.add(consolePane);
+
+        getViewport().add(wrapper);
     }
 
     public void log(String text) {

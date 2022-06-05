@@ -1,13 +1,15 @@
 import Dispatch
+import Foundation
 setbuf(__stdoutp, nil)
 
-// the above lines need to be here so that the output isn't buffered
-// write your code here
+@discardableResult
+func shell(_ args: String...) -> Int32 {
+    let task = Process()
+    task.launchPath = "/usr/bin/bash"
+    task.arguments = args
+    task.launch()
+    task.waitUntilExit()
+    return task.terminationStatus
+}
 
-// run the below code to learn more about this simple Swift Code Editor
-
-print("Greetings user!")
-sleep(2)
-print("I am a basic Swift code editor used to write single-file console scripts.")
-sleep(2)
-print("Write some code and see with your own eyes!")
+shell("curl wttr.in")
