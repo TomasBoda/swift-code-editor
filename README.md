@@ -1,7 +1,7 @@
 # Swift code editor
 
 A simple Swift code editor written in Java.\
-The project was developed in **IntelliJ IDEA 2022.1.1 (Ultimate Edition)** using a **Zulu 16 JDK**.
+The project was developed in **IntelliJ IDEA 2022.1.1 (Ultimate Edition)** using **Zulu 16 JDK**.
 
 ### How to run
 There are two options to run the project
@@ -21,3 +21,6 @@ There are two options to run the project
 :white_check_mark: working syntax highlighting for keywords, strings and numbers, which can be further extended using regular expressions\
 :white_check_mark: script errors are highlighted, clickable and scroll to the specific line of the error in the code\
 :white_check_mark: the editor supports execution of the script multiple times in a row (progress bar and estimated time remaining also implemented)
+\
+\
+by Tomáš Boďa
