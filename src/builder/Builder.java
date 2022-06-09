@@ -37,7 +37,8 @@ public class Builder implements Runnable {
             Main.toolbar.setRemaining(remainingTime);
 
             try {
-                process = new ProcessBuilder("/usr/bin/env", "swift", "foo.swift", Integer.toString(i)).start();
+                String currentRun = Integer.toString(i);
+                process = new ProcessBuilder("/usr/bin/env", "swift", "foo.swift", currentRun).start();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

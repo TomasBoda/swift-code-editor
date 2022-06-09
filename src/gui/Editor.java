@@ -9,6 +9,7 @@ import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,6 +28,45 @@ public class Editor extends JScrollPane {
         editorPane.setCaretColor(new Color(230, 230, 230));
         editorPane.setFont(Configuration.fontEditor);
 
+        SimpleAttributeSet s = new SimpleAttributeSet();
+        StyleConstants.setLineSpacing(s, 0.35f);
+        editorPane.getStyledDocument().setParagraphAttributes(0, editorPane.getStyledDocument().getLength(), s, false);
+
+        DefaultCaret caret = new DefaultCaret() {
+            @Override
+            public void paint(Graphics g) {
+
+                if (isVisible()) {
+                    JTextComponent comp = getComponent();
+                    if (comp == null) return;
+
+                    Rectangle2D rectangle = null;
+                    try {
+                        rectangle = comp.modelToView2D(getDot());
+                        if (rectangle == null) {
+                            return;
+                        }
+                    } catch (BadLocationException e) {
+                        return;
+                    }
+
+                    g.fillRect((int) rectangle.getX(), (int) rectangle.getY() + 1, 1, 16);
+                }
+            }
+        };
+
+        editorPane.setCaret(caret);
+        editorPane.getCaret().setBlinkRate(400);
+
+        StyleContext sc = StyleContext.getDefaultStyleContext();
+        TabStop[] tabStops = new TabStop[10];
+        for (int i = 0; i < 10; i++) {
+            tabStops[i] = new TabStop((i + 1) * 32);
+        }
+        TabSet tabs = new TabSet(tabStops);
+        AttributeSet paraSet = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.TabSet, tabs);
+        editorPane.setParagraphAttributes(paraSet, false);
+
         lineNumbersPane = new JTextPane();
         lineNumbersPane.setMargin(new Insets(20, 20, 20, 20));
         lineNumbersPane.setBackground(new Color(50, 50, 50));
@@ -35,6 +75,7 @@ public class Editor extends JScrollPane {
         SimpleAttributeSet rightAlign = new SimpleAttributeSet();
         StyleConstants.setAlignment(rightAlign, StyleConstants.ALIGN_RIGHT);
         lineNumbersPane.setParagraphAttributes(rightAlign, true);
+        lineNumbersPane.getStyledDocument().setParagraphAttributes(0, lineNumbersPane.getStyledDocument().getLength(), s, false);
 
         JScrollBar verticalScrollBar = getVerticalScrollBar();
         verticalScrollBar.setPreferredSize(new Dimension(0, 0));
@@ -93,13 +134,9 @@ public class Editor extends JScrollPane {
                 "    \"Okay, time to write some code!\"\n" +
                 "]\n" +
                 "\n" +
-                "let lettersPerSecond = 30\n" +
-                "let sentence: String = sentences[index]\n" +
-                "let length = sentence.count\n" +
-                "let duration: UInt32 = UInt32(length / lettersPerSecond)\n" +
-                "\n" +
+                "sleep(2)\n" +
                 "print(sentences[index])\n" +
-                "sleep(duration)");
+                "sleep(2)");
 
         updateLineNumbering();
         highlighter.highlight(editorPane);
