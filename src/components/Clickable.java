@@ -5,16 +5,19 @@ import main.Main;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+// component used purely for clickable
+// compilation errors in the console
+
 public class Clickable extends AbstractAction
 {
-    private String textLink;
+    private String textValue;
 
-    public Clickable(String textLink) {
-        this.textLink = textLink;
+    public Clickable(String textValue) {
+        this.textValue = textValue;
     }
 
     public void execute() {
-        String[] values = textLink.split(":");
+        String[] values = textValue.split(":");
         int line = Integer.parseInt(values[0]);
         int position = Integer.parseInt(values[1]);
 

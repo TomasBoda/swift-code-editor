@@ -26,7 +26,7 @@ public class ProgressBar extends JPanel {
 
         int size = (int) (((double) width / (double) max) * (double) value);
 
-        g.setColor(Configuration.colorGreen);
+        g.setColor(Configuration.COLOR_GREEN);
         g.fillRect(0, 0, size, height);
 
         int stroke = 2;
@@ -36,10 +36,6 @@ public class ProgressBar extends JPanel {
         g.fillRect(0, height - stroke, width, stroke);
         g.fillRect(0, 0, stroke, height);
         g.fillRect(width - stroke, 0, stroke, height);
-    }
-
-    public void setMin(int min) {
-        this.min = min;
     }
 
     public void setMax(int max) {

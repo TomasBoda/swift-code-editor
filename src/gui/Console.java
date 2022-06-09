@@ -12,40 +12,41 @@ import java.awt.event.MouseEvent;
 
 public class Console extends JScrollPane {
 
-    public JTextPane consolePane;
+    private JTextPane consolePane;
 
-    private StyleSet normalStyleSet = new StyleSet().setFontFamily(Font.MONOSPACED).setFontSize(13).setForeground(Configuration.colorWhite).setUnderline(false);
-    private StyleSet errorStyleSet = new StyleSet().setFontFamily(Font.MONOSPACED).setFontSize(13).setForeground(Configuration.colorRed).setUnderline(true);
+    private StyleSet normalStyleSet = new StyleSet().setFontFamily(Font.MONOSPACED).setFontSize(13).setForeground(Configuration.COLOR_WHITE).setUnderline(false);
+    private StyleSet errorStyleSet = new StyleSet().setFontFamily(Font.MONOSPACED).setFontSize(13).setForeground(Configuration.COLOR_RED).setUnderline(true);
 
     public Console(int width, int height) {
-        consolePane = new JTextPane();
         setPreferredSize(new Dimension(width, height));
+        setBorder(BorderFactory.createEmptyBorder());
+
+        // removing scrollbars
+        JScrollBar verticalScrollBar = getVerticalScrollBar();
+        verticalScrollBar.setPreferredSize(new Dimension(0, 0));
+        JScrollBar horizontalScrollBar = getHorizontalScrollBar();
+        horizontalScrollBar.setPreferredSize(new Dimension(0, 0));
+
+        consolePane = new JTextPane();
         consolePane.setMargin(new Insets(20, 20, 20, 20));
         consolePane.setBackground(new Color(30, 30, 30));
         consolePane.setForeground(new Color(230, 230, 230));
         consolePane.setEditable(false);
-        consolePane.setFont(Configuration.fontConsole);
+        consolePane.setFont(Configuration.FONT_CONSOLE);
         consolePane.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
 
+                // handling compilation error clicks
                 Element element = consolePane.getStyledDocument().getCharacterElement(consolePane.viewToModel2D(e.getPoint()));
                 Clickable clickable = (Clickable) element.getAttributes().getAttribute("clickable");
                 if (clickable != null) clickable.execute();
             }
         });
 
-        JScrollBar verticalScrollBar = getVerticalScrollBar();
-        verticalScrollBar.setPreferredSize(new Dimension(0, 0));
-        JScrollBar horizontalScrollBar = getHorizontalScrollBar();
-        horizontalScrollBar.setPreferredSize(new Dimension(0, 0));
-
-        setBorder(BorderFactory.createEmptyBorder());
-
         JPanel wrapper = new JPanel(new BorderLayout());
         wrapper.add(consolePane);
-
         getViewport().add(wrapper);
     }
 

@@ -27,8 +27,8 @@ public class Main {
         console.log("Building...\n");
 
         String code = editor.getCodeContents();
-        builder.generateCodeFile(code);
-        console.log("Code successfully built, running...");
+        builder.generateOutputFile(code);
+        console.log("Code successfully built, running...\n");
         console.log("\n\n");
 
         int batchCount = toolbar.getBatchCount();
@@ -44,12 +44,12 @@ public class Main {
     public static void stop() {
         builder.getCurrentProcess().destroy();
         console.log("\n\nProcess terminated manually...");
-        toolbar.setStatus("Terminated", new Color(255, 149, 0));
+        toolbar.setStatus("Terminated", Configuration.COLOR_ORANGE);
     }
 
     private void initComponents() {
         editor = new Editor();
-        console = new Console(400, 450);
+        console = new Console(Configuration.CONSOLE_WIDTH, Configuration.CONSOLE_HEIGHT);
         toolbar = new Toolbar();
 
         window = new Window();

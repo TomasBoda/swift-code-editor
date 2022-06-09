@@ -7,7 +7,7 @@ public class Token {
     public String regex;
     public StyleSet style;
 
-    public static enum TYPE { KEYWORD, NUMBER, STRING, COMMENT, OPERATOR, PARENTHESES };
+    public enum TYPE { KEYWORD, NUMBER, STRING };
     public TYPE type;
 
     public Token(TYPE type, String regex, StyleSet style) {

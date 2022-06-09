@@ -40,4 +40,9 @@ public class StyleSet extends SimpleAttributeSet {
         this.addAttribute(key, clickable);
         return this;
     }
+
+    public StyleSet setLineSpacing(float lineSpacing) {
+        StyleConstants.setLineSpacing(this, lineSpacing);
+        return this;
+    }
 }
