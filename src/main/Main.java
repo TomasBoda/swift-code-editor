@@ -1,3 +1,13 @@
+/*
+ * Swift Code Editor desktop
+ * application for creating
+ * and running Swift scripts
+ *
+ * @author  Tomas Boda
+ * @version 1.0
+ * @since   2022-06-09
+ */
+
 package main;
 
 import builder.Builder;
