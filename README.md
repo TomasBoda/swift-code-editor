@@ -23,4 +23,4 @@ There are two options to run the project
 :white_check_mark: the editor supports execution of the script multiple times in a row (progress bar and estimated time remaining also implemented)
 \
 \
-by Tomáš Boďa
+by Tomas Boda
