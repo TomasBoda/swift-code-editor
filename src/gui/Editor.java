@@ -5,6 +5,7 @@ import main.Configuration;
 import highlighter.Highlighter;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -28,6 +29,9 @@ public class Editor extends JScrollPane {
         verticalScrollBar.setPreferredSize(new Dimension(0, 0));
         JScrollBar horizontalScrollBar = getHorizontalScrollBar();
         horizontalScrollBar.setPreferredSize(new Dimension(0, 0));
+
+        verticalScrollBar.setUnitIncrement(16);
+        horizontalScrollBar.setUnitIncrement(16);
 
         // main code editor component
         editorPane = new JTextPane();

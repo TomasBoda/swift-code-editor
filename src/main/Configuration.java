@@ -50,14 +50,14 @@ public class Configuration {
             "let sentences: [String] = [\n" +
             "    \"Welcome to the Swift Code Editor!\",\n" +
             "    \"Let's take a look at what you can do with it.\",\n" +
-            "    \"The RUN button in the upper-left corner runs\\nthe code that is written in this editor pane.\",\n" +
+            "    \"The RUN button in the upper-left corner runs\\nthe code that is written in the editor pane.\",\n" +
             "    \"The STOP button terminates the currently\\nrunning code.\",\n" +
             "    \"The CLEAR button clears the editor pane,\\nso that you can start writing code from\\nscratch.\",\n" +
-            "    \"The black input field right next to the\\nbutton determines how many times should\\nthe script be executed. It only accepts\\nwhole numbers.\",\n" +
-            "    \"That's it! Have fun! Oh, one more thing.\",\n" +
-            "    \"In order to show you live output of the\\nscript, the very first two lines of Swift\\ncode have to be present.\",\n" +
+            "    \"The black input field right next to the\\nbutton determines how many times the\\nscript should be executed. It only accepts\\nwhole numbers.\",\n" +
+            "    \"One more thing...\",\n" +
+            "    \"In order to show the live output of the\\nscript, the first three lines of Swift\\ncode have to be present.\",\n" +
             "    \"They disable buffering, so the output goes\\ninstantly and directly to the console pane.\",\n" +
-            "    \"Okay, time to write some code!\"\n" +
+            "    \"Okay, let's write some code!\"\n" +
             "]\n" +
             "\n" +
             "sleep(1)\n" +

@@ -99,11 +99,14 @@ public class Toolbar extends JPanel {
     }
 
     private void onClear() {
-        Main.editor.editorPane.setText("import Dispatch\n" +
-                "import Foundation\n" +
-                "setbuf(__stdoutp, nil)\n");
-        Main.editor.highlighter.highlight(Main.editor.editorPane);
-        Main.editor.updateLineNumbering();
+        if (Main.builder.getCurrentProcess() == null || !Main.builder.getCurrentProcess().isAlive()) {
+            Main.editor.editorPane.setText("import Dispatch\n" +
+                    "import Foundation\n" +
+                    "setbuf(__stdoutp, nil)\n");
+            batchField.setText("1");
+            Main.editor.highlighter.highlight(Main.editor.editorPane);
+            Main.editor.updateLineNumbering();
+        }
     }
 
     public void setStatus(String status, Color color) {

@@ -5,6 +5,7 @@ import components.StyleSet;
 import main.Configuration;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -21,11 +22,14 @@ public class Console extends JScrollPane {
         setPreferredSize(new Dimension(width, height));
         setBorder(BorderFactory.createEmptyBorder());
 
-        // removing scrollbars
+        // removing scrollbarS
         JScrollBar verticalScrollBar = getVerticalScrollBar();
         verticalScrollBar.setPreferredSize(new Dimension(0, 0));
         JScrollBar horizontalScrollBar = getHorizontalScrollBar();
         horizontalScrollBar.setPreferredSize(new Dimension(0, 0));
+
+        verticalScrollBar.setUnitIncrement(16);
+        horizontalScrollBar.setUnitIncrement(16);
 
         consolePane = new JTextPane();
         consolePane.setMargin(new Insets(20, 20, 20, 20));

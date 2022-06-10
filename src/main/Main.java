@@ -26,6 +26,7 @@ public class Main {
     public static Toolbar toolbar;
 
     public static Builder builder;
+    private static Thread thread;
 
     public Main() {
         builder = new Builder();
@@ -47,13 +48,14 @@ public class Main {
 
         builder.setBatchCount(batchCount);
 
-        Thread thread = new Thread(builder);
+        thread = new Thread(builder);
         thread.start();
     }
 
     public static void stop() {
+        thread.stop();
         builder.getCurrentProcess().destroy();
-        console.log("\n\nProcess terminated manually...");
+        console.log("\n\nProcess terminated manually...\n\n");
         toolbar.setStatus("Terminated", Configuration.COLOR_ORANGE);
     }
 
