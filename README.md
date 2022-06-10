@@ -6,21 +6,22 @@ The project was developed in **IntelliJ IDEA 2022.1.1 (Ultimate Edition)** using
 ### How to run
 There are two options to run the project
 - clone the project to your local machine, open it using IntelliJ IDEA or any other Java IDE and run the project locally
-- download this [runnable JAR file](./out/artifacts/SwiftCodeEditor_jar/SwiftCodeEditor.jar) and double click it to run
+- download and double click this [runnable JAR file](./out/artifacts/SwiftCodeEditor_jar/SwiftCodeEditor.jar)
 
 
 ### Required functionality
-:white_check_mark: editor pane and output pane\
-:white_check_mark: the script is written to `foo.swift` and executed using `/usr/bin/env swift foo.swift`\
-:white_check_mark: the output pane shows live output, however, the `setbuf(__stdoutp, nil)` must be set in the script in order to disable buffering\
-:white_check_mark: the output pane shows errors as well as the exit code of the script\
-:white_check_mark: a colored status message indicates whether the script is running, or whether the execution was successful or not\
-:white_check_mark: exit code is displayed in the output pane
+- editor pane and output pane
+- the script is written to `foo.swift` and executed using `/usr/bin/env swift foo.swift`
+- the output pane shows live output of the script
+  - `setbuf(__stdoutp, nil)` must be present at the top of the script to disable buffering in Swift
+- the output pane shows compilation errors as well as the exit code of the script
+- a colored status message indicates whether the script is running, or whether the execution was successful or not
+- exit code is displayed in the output pane
 
 ### Additional functionality
-:white_check_mark: working syntax highlighting for keywords, strings and numbers, which can be further extended using regular expressions\
-:white_check_mark: script errors are highlighted, clickable and scroll to the specific line of the error in the code\
-:white_check_mark: the editor supports execution of the script multiple times in a row (progress bar and estimated time remaining also implemented)
-\
-\
+- syntax highlighting for keywords, strings and numbers, which can be further extended using regular expressions
+- compilation errors are highlighted, clickable and scroll to the specific line of the error in the code
+- execution of the script multiple times in a row is supported (progress bar and estimated time remaining also implemented)
+  - the input field right next to the three buttons in the toolbar determines how many times the script should be executed
+
 by Tomáš Boďa
