@@ -5,7 +5,7 @@
  *
  * @author  Tomas Boda
  * @version 1.0
- * @since   2022-06-09
+ * @since   2022-06-10
  */
 
 package main;
