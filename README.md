@@ -24,4 +24,4 @@ There are two options to run the project
 - **execution** of the script **multiple times** in a row is supported (progress bar and estimated time remaining also implemented)
   - the input field right next to the three buttons in the toolbar determines how many times the script should be executed
 
-by Tomáš Boďa
+by [Tomáš Boďa](https://github.com/TomasBoda)
